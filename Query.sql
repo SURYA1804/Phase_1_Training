@@ -290,6 +290,9 @@ DESC ACCOUNT;
 
 
 
+select * from Account;
+
+
 
 
 
