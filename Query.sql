@@ -288,12 +288,13 @@ UPDATE Account SET Branch_ID = 'B1' WHERE AccountNumber = '181';
 ALTER  TABLE ACCOUNT ADD CONSTRAINT Foreign Key(Branch_ID) REFERENCES branch_master(branch_id) ;
 DESC ACCOUNT;
 
+select * from Account
+INTO OUTFILE 'C:\ProgramData\MySQL\MySQL Server 8.0\Uploads\data.csv'
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n';
 
-
-select * from Account;
-
-
-
+show variables like 'secure_file_priv';
 
 
 
