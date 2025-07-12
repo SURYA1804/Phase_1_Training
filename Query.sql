@@ -289,13 +289,250 @@ ALTER  TABLE ACCOUNT ADD CONSTRAINT Foreign Key(Branch_ID) REFERENCES branch_mas
 DESC ACCOUNT;
 
 select * from Account
-INTO OUTFILE 'C:\ProgramData\MySQL\MySQL Server 8.0\Uploads\data.csv'
+INTO OUTFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\data.csv'
 fields terminated by ','
 enclosed by '"'
 lines terminated by '\n';
 
 show variables like 'secure_file_priv';
+--Weekly Task
+USE LMS;
+CREATE TABLE LMS_MEMBERS (MemberID VARCHAR(10),MemberName VARCHAR(100),City VARCHAR(20),
+DateRegister DATE,DateExpire DATE,MemberStatus VARCHAR(15));
+
+Insert into LMS_MEMBERS
+Values('LM001', 'AMIT', 'CHENNAI', ('2012-02-20'), ('2013-11-02'),'Temporary');
+
+Insert into LMS_MEMBERS
+Values('LM002', 'ABDHUL', 'DELHI', ('2012-04-10'),('2013-04-09'),'Temporary');
+
+Insert into LMS_MEMBERS
+Values('LM003', 'GAYAN', 'CHENNAI', ('2013-05-12'),('2013-05-14'), 'Permanent');
+
+Insert into LMS_MEMBERS
+Values('LM004', 'RADHA', 'CHENNAI', ('2012-04-22'), ('2013-04-21'), 'Temporary');
+
+Insert into LMS_MEMBERS
+Values('LM005', 'GURU', 'BANGALORE', ('2012-03-30'), ('2013-03-29'),'Temporary');
+
+Insert into LMS_MEMBERS
+Values('LM006', 'MOHAN', 'CHENNAI', ('2012-04-12'), ('2013-04-12'),'Temporary');
+
+select * from LMS_MEMBERS;
+
+CREATE TABLE LMS_SUPPLIERS_DETAILS (SupplierID VARCHAR(10),SupplierName VARCHAR(30),
+Address VARCHAR(100),Contact VARCHAR(12),Email VARCHAR(30));
+
+Insert into  LMS_SUPPLIERS_DETAILS 
+Values ('S01','SINGAPORE SHOPPEE', 'CHENNAI', 989412355,'sing@gmail.com');
+
+Insert into  LMS_SUPPLIERS_DETAILS 
+Values ('S02','JK Stores', 'MUMBAI', 994012345 ,'jks@yahoo.com');
+
+Insert into  LMS_SUPPLIERS_DETAILS 
+Values ('S03','ROSE BOOK STORE', 'TRIVANDRUM', 944441122,'rose@gmail.com');
+
+Insert into  LMS_SUPPLIERS_DETAILS 
+Values ('S04','KAVARI STORE', 'DELHI', 863000145,'kavi@redif.com');
+
+Insert into  LMS_SUPPLIERS_DETAILS 
+Values ('S05','EINSTEN BOOK GALLARY', 'US', 954200001,'eingal@aol.com');
+
+Insert into  LMS_SUPPLIERS_DETAILS 
+Values ('S06','AKBAR STORE', 'MUMBAI',785562310 ,'akbakst@aol.com');
+
+select * from LMS_SUPPLIERS_DETAILS;
+
+CREATE TABLE LMS_FINE_DETAILS(FineRange VARCHAR(5),FineAmount INT);
+
+Insert into LMS_FINE_DETAILS Values('R1', 20);
+
+insert into LMS_FINE_DETAILS Values('R2', 50);
+
+Insert into LMS_FINE_DETAILS Values('R3', 75);
+
+Insert into LMS_FINE_DETAILS Values('R4', 100);
+
+Insert into LMS_FINE_DETAILS Values('R5', 150);
+
+Insert into LMS_FINE_DETAILS Values('R6', 200);
+
+select * from lms_fine_details;
+
+
+CREATE table LMS_BOOK_DETAILS (BookCode VARCHAR(10) primary key,BookTitle VARCHAR(50),Category VARCHAR(20),Author VARCHAR(30),
+Publication VARCHAR(30),PublishDate Date,BookEdition INT,Price INT,RackNum VARCHAR(10),DateArrival DATE,
+SupplierID VARCHAR(10));
 
 
 
+Insert into LMS_BOOK_DETAILS
+Values('BL000001', 'Java How To Do Program', 'JAVA', 'Paul J. Deitel', 'Prentice Hall', ('1999-10-12'), 6, 600.00, 'A1',('2011-10-05'), 'S01');
+
+Insert into LMS_BOOK_DETAILS
+Values('BL000002', 'Java: The Complete Reference ', 'JAVA', 'Herbert Schildt',  'Tata Mcgraw Hill ', ('2011-10-10'), 5, 750.00, 'A1', ('2011-10-05'), 'S03');
+
+Insert into LMS_BOOK_DETAILS 
+Values('BL000003', 'Java How To Do Program', 'JAVA', 'Paul J. Deitel', 'Prentice Hall', ('1999-02-10'), 6, 600.00, 'A1', ('2012-05-12'), 'S01');
+
+Insert into LMS_BOOK_DETAILS
+Values('BL000004', 'Java: The Complete Reference ', 'JAVA', 'Herbert Schildt', 'Tata Mcgraw Hill ', ('2011-10-10'), 5, 750.00, 'A1', ('2012-05-12'), 'S01');
+
+Insert into LMS_BOOK_DETAILS 
+Values('BL000005', 'Java How To Do Program', 'JAVA', 'Paul J. Deitel',  'Prentice Hall', ('1999-12-10'), 6, 600.00, 'A1', ('2012-05-12'), 'S01');
+
+Insert into LMS_BOOK_DETAILS
+Values('BL000006', 'Java: The Complete Reference ', 'JAVA', 'Herbert Schildt', 'Tata Mcgraw Hill ', ('2011-10-10'), 5, 750.00, 'A1', ('2012-05-12'), 'S03');
+
+Insert into LMS_BOOK_DETAILS 
+Values('BL000007', 'Let Us C', 'C', 'Yashavant Kanetkar ', 'BPB Publications', ('2010-12-11'),  9, 500.00 , 'A3', ('2010-01-03'), 'S03');
+
+Insert into LMS_BOOK_DETAILS 
+Values('BL000008', 'Let Us C', 'C', 'Yashavant Kanetkar ','BPB Publications', ('2010-12-11'),.9, 500.00 , 'A3', ('2010-01-03'), 'S04');
+
+select * from LMS_BOOK_DETAILS;
+
+
+CREATE TABLE LMS_BOOK_ISSUE(BookIssueNo INT PRIMARY KEY,MemberID VARCHAR(10),BookCode VARCHAR(10),DateIssue DATE,DateReturn DATE,
+DateReturned DATE,BookIssueStatus VARCHAR(30),FineRange VARCHAR(5));
+
+Insert into LMS_BOOK_ISSUE 
+Values (001, 'LM001', 'BL000001',('2012-05-01'),('2012-05-16'), ('2012-05-16'),'N', 'R1');
+
+
+Insert into LMS_BOOK_ISSUE 
+Values (002, 'LM002', 'BL000002', ('2012-02-12'),('2012-06-06'), ('2012-11-01'), 'N', 'R2');
+
+Insert into LMS_BOOK_ISSUE
+Values (003, 'LM003', 'BL000007', ('2012-04-19'),('2012-05-06'), ('2012-10-05'),'Y','R1');
+
+Insert into LMS_BOOK_ISSUE 
+Values (004, 'LM004', 'BL000005', ('2012-05-01'),('2012-05-16'), ('2012-05-16'), 'Y', 'R1');
+
+Insert into LMS_BOOK_ISSUE 
+Values (005, 'LM005', 'BL000008',('2012-07-11'),('2012-08-16'), ('2012-08-19') ,'N', 'R2');
+
+SELECT * from LMS_BOOK_ISSUE;
+
+
+select MemberID,MemberName,City,MemberStatus from lms_members WHERE MemberStatus = 'Permanent' ;
+
+
+select  i.MemberID,m.MemberName from lms_book_issue i inner join lms_members m on
+ i.MemberID = m.MemberID WHERE i.BookIssueStatus = 'N' ;
+ 
+ select  i.MemberID,m.MemberName from lms_book_issue i inner join lms_members m on
+ i.MemberID = m.MemberID WHERE i.BookCode = 'BL000002' ;
+
+select b.BookCode,b.BookTitle,b.Author from lms_book_details b WHERE b.Author like 'P%' ;
+
+select COUNT(b.BookCode) AS NO_OF_BOOKS from lms_book_details b 
+WHERE b.Category = 'JAVA';
+
+select Category AS BookCategory,COUNT(BookCode) As NO_OF_BOOKS  from lms_book_details GROUP BY Category;
+
+select COUNT(b.BookCode) from lms_book_details b 
+WHERE b.Publication = 'Prentice Hall';
+
+select i.BookCode,b.BookTitle from lms_book_issue i inner join lms_book_details b 
+ON i.BookCode = b.BookCode
+WHERE i.DateIssue = '2012/04/01';	
+
+SELECT MemberID,MemberName,DateRegister,DateExpire
+FROM lms_members
+WHERE DateExpire < '2013-04-01';
+
+
+SELECT MemberID,MemberName,DateRegister,DateExpire,MemberStatus
+FROM lms_members
+WHERE DateRegister < '2013-03-01' AND MemberStatus = 'Temporary' ;
+
+select MemberID,MemberName AS Name from lms_members WHERE City IN ('Chennai','Delhi');
+
+select Concat(booktitle,'_is_written_by_',Author) AS BOOK_WRITTEN_BY from lms_book_details;
+
+
+select AVG(Price) AS AVERAGEPRICE from lms_book_details WHERE Category = 'JAVA';
+
+select SupplierID,SupplierName,Email from lms_suppliers_details WHERE Email is not NULL;
+
+select SupplierID,SupplierName,Coalesce(Contact,Email,Address) AS CONTACTDETAILS 
+from lms_suppliers_details;
+
+select SupplierID,SupplierName ,
+CASE WHEN Contact is NULL THEN 'NO' 
+ELSE 'YES' END AS PHONENUMAVAILABLE
+ from lms_suppliers_details;
+
+select m.MemberID,m.MemberName,b.BookCode,b.BookTitle
+ from lms_members m inner join lms_book_issue i 
+on m.MemberID = i.MemberID INNER JOIN lms_book_details b on
+i.BookCode = b.BookCode Group BY m.MemberID,m.MemberName,b.BookCode,b.BookTitle;
+
+select Count(BookCode) NO_OF_BOOKS_AVAILABLE from lms_book_details where BookCode NOT IN 
+(select BookCode from lms_book_issue) ;
+
+select m.MemberID,m.MemberName,f.FineRange,f.FineAmount from lms_book_issue i 
+INNER JOIN lms_fine_Details f ON
+i.FineRange = f.FineRange AND f.FineAmount < 100 INNER JOIN 
+lms_members m on i.MemberID = m.MemberID;
+
+select b.bookCode,b.booktitle ,
+CASE WHEN i.BookIssueStatus = 'N' THEN 'No'
+ELSE  'Yes' END AS AVAILABILITYSTATUS
+from lms_book_details b
+inner join lms_book_issue i on b.bookcode = i.bookcode
+WHERE b.BookEdition = 6 AND b.Category = 'JAVA';
+
+select BookCode,BookTitle,RackNum from lms_book_details where RackNum = 'A1'
+ ORDER BY BookTitle;
+
+ select m.MemberID,m.MemberName from lms_members m inner join lms_book_issue i ON
+ m.MemberID = i.MemberID WHERE i.DateReturned > i.DateReturn;
+ 
+ select m.MemberID,m.MemberName,m.DateRegister from lms_members m WHERE m.MemberID NOT IN
+ (select MemberID from lms_book_issue);
+ 
+ select m.MemberID,m.MemberName from lms_members m INNER JOIN lms_book_issue i ON
+ m.MemberID = i.MemberID WHERE i.DateReturned < i.DateReturn AND YEAR(i.DateIssue) = 2012;
+ 
+ 
+ select DateIssue,COUNT(BookCode) NOOFBOOKS from lms_book_issue group by DateIssue;
+
+select BookTitle,SupplierID from lms_book_details WHERE Author = 'Herbert Schildt' 
+AND BookEdition = 5 AND SupplierID = 'S01';
+
+select RackNum,Count(BookCode) NOOFBOOKS from lms_book_details GROUP BY RackNum ORDER BY RackNum;
+
+select i.BookIssueNo,m.MemberName,m.DateRegister,m.DateExpire,b.booktitle,
+b.Category,b.Author,b.Price,i.DateIssue AS 'date of issue',i.DateReturn AS 'date of return',
+i.DateReturned AS 'Actual Returned Date',i.BookIssueStatus AS 'IssueStatus',f.FineAmount
+from lms_book_issue i inner join lms_members m on i.MemberID = m.MemberID
+INNER JOIN lms_fine_details f on i.FineRange = f.FineRange
+INNER JOIN lms_book_details b ON i.BookCode = b.BookCode;
+
+select BookCode,BookTitle,PublishDate from lms_book_Details WHERE Month(PublishDate) = 12;
+
+select b.BookCode,b.BookTitle,CASE WHEN i.BookIssueStatus = 'Y' THEN 'Yes' 
+WHEN   i.BookIssueStatus = 'N' THEN 'No'
+ELSE 'Yes' END AS AVAILABILITYSTATUS 
+from lms_book_details b left join lms_book_issue i on b.BookCode = i.BookCode
+WHERE b.Category = 'JAVA' AND b.BookEdition = 5;
+
+select b.BookTitle,s.SupplierName from lms_Book_details b INNER JOIN lms_suppliers_details s 
+where s.SupplierID =  (select SupplierID
+from lms_Book_Details group by SupplierID ORDER BY Count(SupplierID) DESC LIMIT 1 OFFSET 0)
+group by b.BookTitle,s.SupplierName; 
+
+select m.MemberID,m.MemberName, 3 - 
+(select Count(b1.BookCode) from lms_book_issue b1 where b1.MemberID = m.MemberID
+ AND b1.BookIssueStatus = 'N') 
+AS REMAININGBOOKS from lms_members m LEFT join lms_book_issue i ON
+m.MemberID = i.MemberID
+group by m.MemberID,m.MemberName;
+
+select s.SupplierID,s.SupplierName from  lms_suppliers_details s 
+where s.SupplierID =  (select SupplierID
+from lms_Book_Details group by SupplierID ORDER BY Count(SupplierID)  LIMIT 1 OFFSET 0)
+group by s.SupplierID,s.SupplierName; 
 
