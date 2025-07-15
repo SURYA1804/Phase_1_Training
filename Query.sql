@@ -708,11 +708,61 @@ Insert into CUSTOMER_CARD_DETAILS Values('C00005','CRD003','2012-05-13');
 
 
 
+select m.Movie_Name ,COUNT(i.Movie_ID) AS ISSUE_COUNT from movies_master m 
+LEFT JOIN Customer_issue_details i ON 
+m.Movie_ID = i.Movie_ID 
+GROUP BY i.Movie_ID,m.Movie_Name
+ORDER BY ISSUE_COUNT DESC,m.Movie_Name;
+
+
+select Customer_ID,Customer_Name,IFNULL(concat('+91-',substring(Contact_No,1,3),'-',
+substring(Contact_No,4,3),'-',substring(Contact_No,7,4)),'N\A') AS CONTACT_ISD 
+from customer_master WHERE Age > 25 AND YEAR(Date_of_Registration) = 2012
+ORDER BY Age,Customer_Name;
+
+
+select Movie_category,Count(Movie_ID) AS NO_OF_MOVIES from movies_master
+Group BY Movie_category ORDER BY NO_OF_MOVIES DESC,Movie_category;
+
+UPDATE movies_master
+SET movie_Category = TRIM(REGEXP_REPLACE(movie_Category, '\\s+', ' '));
+
+
+select COUNT(c.card_ID) AS CUSTOMER_COUNT from customer_card_details c  
+INNER JOIN library_card_master  cm ON
+c.Card_ID = cm.Card_ID WHERE cm.Description LIKE '%GOLD CARD%';
 
 
 
+select c.Customer_ID,c.Customer_name,YEAR(c.Date_of_Registration) AS REGISTERED_YEAR , 
+cd.card_id,cd.issue_date
+from customer_master c inner join customer_card_details cd  
+ON c.Customer_ID = cd.Customer_ID
+ORDER BY c.Customer_name desc;
+ 
+select i.ISSUE_ID,i.Customer_ID,c.Customer_Name from customer_issue_details i
+INNER JOIN customer_master c on i.Customer_ID = c.Customer_ID 
+WHERE i.Return_Date<i.Actual_date_return AND c.Customer_name LIKE 'R%' ORDER BY c.Customer_Name;
+
+select c.Customer_ID,c.Customer_Name,cd.Card_ID,cm.Description,concat('$',ROUND(cm.Amount/85.8,0)) 
+AS AMOUNT_DOLLAR from customer_master c INNER JOIN customer_card_details cd 
+ON c.Customer_ID = cd.Customer_ID INNER JOIN library_card_master cm on 
+cd.Card_id = cm.Card_id INNER JOIN customer_issue_Details ci on cd.Customer_ID = ci.Customer_ID
+AND ci.Issue_Date = cd.Issue_Date;
+
+select c.Customer_name,COUNT(Movie_ID) AS MOVIE_COUNT from customer_master c 
+LEFT join customer_issue_details ci on ci.Customer_ID = c.Customer_ID
+group by C.Customer_ID,C.customer_name ORDER BY c.Customer_ID;
+
+select cd.Issue_ID,cd.Issue_Date,c.customer_name,c.contact_no from 
+customer_issue_Details cd inner JOIN customer_master c  ON  cd.Customer_ID = c.Customer_ID
+where YEAR(cd.Issue_date) = 2013 ORDER BY cd.Issue_Date DESC;
 
 
 
+select UPPER(Director) AS DIRECTOR_NAME,COUNT(MOVIE_ID) AS 'number of movies' from movies_master 
+group by DIRECTOR HAVING COUNT(MOVIE_ID)>1
+ORDER BY DIRECTOR_NAME;
 
 
+update movies_master SET Director= 'CHRISTOPHER NOLAN' WHERE Movie_id = 'M00002';
