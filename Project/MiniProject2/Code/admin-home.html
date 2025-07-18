@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Home - Food Order System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <div class="container py-5">
+    <div class="row" id="admin-product-list"></div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+    <script>
+    fetch('components/header.html')
+      .then(res => res.text())
+      .then(data => document.getElementById('header-placeholder').innerHTML = data);
+
+    fetch('components/footer.html')
+      .then(res => res.text())
+      .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+  </script>
+  <script src="js/main.js"></script>
+  <script src="js/product.js"></script>
+  <script>
+      loadHeader();
+    function saveEdit(id) {
+      const name = document.getElementById(`name-${id}`).value;
+      const price = document.getElementById(`price-${id}`).value;
+      const products = JSON.parse(localStorage.getItem("products")) || window.products;
+
+      const index = products.findIndex(p => p.id === id);
+      if (index !== -1) {
+        products[index].name = name;
+        products[index].price = Number(price);
+        localStorage.setItem("products", JSON.stringify(products));
+        alert("Product updated successfully");
+        displayAdminProducts();
+      }
+    }
+
+    function displayAdminProducts() {
+  const list = document.getElementById('admin-product-list');
+
+  let storedProducts = localStorage.getItem("products");
+  let products;
+
+  try {
+    products = storedProducts ? JSON.parse(storedProducts) : window.products;
+  } catch (e) {
+    console.error("Invalid products in localStorage, resetting...");
+    products = window.products;
+    localStorage.setItem("products", JSON.stringify(products));
+  }
+
+  // Re-save clean version if needed
+  if (!storedProducts || storedProducts === "undefined") {
+    localStorage.setItem("products", JSON.stringify(products));
+  }
+
+  list.innerHTML = products.map(p => `
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="${p.image}" class="img-fluid rounded-start" alt="${p.name}" height="200">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <div class="mb-2">
+                <label>Name:</label>
+                <input id="name-${p.id}" type="text" class="form-control" value="${p.name}">
+              </div>
+              <div class="mb-2">
+                <label>Price:</label>
+                <input id="price-${p.id}" type="number" class="form-control" value="${p.price}">
+              </div>
+              <button class="btn btn-primary" onclick="saveEdit(${p.id})">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+
+    displayAdminProducts();
+  </script>
+
+
+
+</body>
+</html>

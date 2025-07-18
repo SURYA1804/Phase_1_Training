@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Home - Food Order System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  .card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-img-top {
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 4px solid #f8f9fa;
+  }
+
+  .btn-add {
+    background-color: #ff5722;
+    border: none;
+    font-weight: 600;
+  }
+
+  .btn-add:hover {
+    background-color: #e64a19;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .price {
+    font-size: 1.1rem;
+    color: #28a745;
+    font-weight: 500;
+  }
+  #specials-section .card {
+  transition: transform 0.3s ease;
+}
+
+#specials-section .card:hover {
+  transform: translateY(-5px);
+}
+
+</style>
+
+
+
+
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
+  <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        Product added to cart!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<main class="flex-grow-1 py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5 display-5 fw-bold text-danger">🍕 Welcome to Leo Foods</h2>
+    <p class="text-center text-muted mb-5 fs-5">Browse our tasty dishes and add your favorites to the cart!</p>
+    <h4 class="mb-4 fw-bold text-primary">🔥 Today's Special Dishes</h4>
+    <div class="d-flex overflow-auto mb-5" id="specials-section">
+    </div>
+    <h4 class="mb-4 fw-bold text-primary">🔥 Everyday Dishes</h4>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" id="product-list">
+    </div>
+  </div>
+</main>
+
+
+<div id="footer-placeholder"></div>
+
+
+  <script src="js/main.js"></script>
+  <script src="js/product.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    loadHeader();
+    fetch('components/header.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+    updateCartCount(); 
+  });
+
+    function addToCart(id) {
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                cart.push(id);
+                localStorage.setItem("cart", JSON.stringify(cart));
+
+                const toast = new bootstrap.Toast(document.getElementById('cartToast'));
+                toast.show();
+                updateCartCount();
+    }
+    function displaySpecials() {
+  const specials = [
+    {
+      name: "Paneer Tikka Pizza",
+      price: 249,
+      image: "https://images.unsplash.com/photo-1554136812-8b7875b188b2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fFBhbmVlciUyMFRpa2thJTIwUGl6emF8ZW58MHx8MHx8fDA%3D"
+    },
+    {
+      name: "Butter Chicken Biryani",
+      price: 299,
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6TIFzZy9H2YLJ0ZTUUvLFytdZco3mi-ZvWw&s"
+    },
+    {
+      name: "Cheesy Garlic Bread",
+      price: 129,
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa4F1ihgJERi8Q7oMn34ISJy7KuEyXDYtprw&s"
+    }
+  ];
+
+  const section = document.getElementById("specials-section");
+  section.innerHTML = specials.map(s => `
+    <div class="card me-3 shadow-sm" style="min-width: 250px; border-radius: 12px;">
+      <img src="${s.image}" class="card-img-top" style="height: 180px; object-fit: cover;">
+      <div class="card-body">
+        <h5 class="card-title mb-1">${s.name}</h5>
+        <p class="price mb-2">₹${s.price}</p>
+        <button class="btn btn-sm btn-add w-100" onclick="addToCart(1)">Add to Cart</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+
+    function displayProducts() {
+      const list = document.getElementById('product-list');
+      const products = JSON.parse(localStorage.getItem("products")) || window.products;
+      localStorage.setItem("products", JSON.stringify(window.products));
+
+
+      list.innerHTML = products.map(p => `
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <img src="${p.image}" class="card-img-top" alt="${p.name}" height="200">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">${p.name}</h5>
+              <p class="card-text">Price: ₹${p.price}</p>
+              <button class="btn btn-success mt-auto" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>
+          </div>
+        </div>`
+      ).join("");
+    }
+    const section = document.getElementById("specials-section");
+
+    displaySpecials();
+    displayProducts();
+  </script>
+
+
+</body>
+</html>
