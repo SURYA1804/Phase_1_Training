@@ -23,7 +23,7 @@ window.products = [
     price: 180,
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPP-pSMMbL5HTfpbULwUWT1fceRdPW6o3JMg&s"
   },
-  {
+  {     
     id: 5,
     name: "Paneer Tikka",
     price: 200,

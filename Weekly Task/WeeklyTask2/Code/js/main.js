@@ -46,6 +46,11 @@ function loadHeader() {
         if (welcome) {
           welcome.textContent = `Welcome, ${username}`;
         }
+        const ordersElemet = document.getElementById("Orders-link");
+        if(ordersElemet)
+        {
+          ordersElemet.href = role === "admin" ? "admin-orders.html" : "orders.html";
+        }
 
         const addProductNav = document.getElementById("add-product-nav");
         if (role === "admin" && addProductNav) {
