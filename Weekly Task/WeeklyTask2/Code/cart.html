@@ -112,14 +112,17 @@
 
     function removeFromCart(index) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.removeItem("cart", JSON.stringify(cart));
       loadCart();
       updateCartCount();
     }
     loadCart();
-  function proceedToCheckout() {
-      window.location.href = "payment.html"; 
-    };
+function proceedToCheckout() {
+ const total = document.getElementById("cart-total").innerText;
+ localStorage.setItem("totalAmount", total);
+ window.location.href = "payment.html";
+}
+
 
 </script>
 
